@@ -5,9 +5,9 @@ import (
 	"io"
 	"time"
 
-	"github.com/pkg/errors"
 	eos "github.com/eoscanada/eos-go"
 	"github.com/eoscanada/eos-go/ecc"
+	"github.com/pkg/errors"
 	"go.uber.org/zap/zapcore"
 )
 
@@ -68,7 +68,6 @@ const (
 	GoAwayAuthentication = eos.GoAwayAuthentication
 	GoAwayFatalOther     = eos.GoAwayFatalOther
 	GoAwayBenignOther    = eos.GoAwayBenignOther
-	GoAwayCrazy          = eos.GoAwayCrazy
 )
 
 // CurveK1 ecc types
@@ -117,11 +116,10 @@ func NewEmptyBlock() *SignedBlock {
 	return &SignedBlock{
 		SignedBlockHeader: eos.SignedBlockHeader{
 			BlockHeader: eos.BlockHeader{
-				NewProducers: &eos.OptionalProducerSchedule{
-					ProducerSchedule: eos.ProducerSchedule{
-						Producers: make([]eos.ProducerKey, 0, 23),
-					},
+				NewProducersV1: &eos.ProducerSchedule{
+					Producers: make([]eos.ProducerKey, 0, 23),
 				},
+
 				HeaderExtensions: make([]*eos.Extension, 0, 4),
 			},
 			ProducerSignature: sign,
@@ -176,21 +174,6 @@ func DeepCopyBlock(b *SignedBlock) (*SignedBlock, error) {
 		},
 		Transactions:    make([]eos.TransactionReceipt, 0, len(b.Transactions)),
 		BlockExtensions: make([]*eos.Extension, 0, len(b.BlockExtensions)),
-	}
-
-	if b.NewProducers != nil {
-		res.NewProducers = &eos.OptionalProducerSchedule{
-			ProducerSchedule: eos.ProducerSchedule{
-				Version:   b.NewProducers.Version,
-				Producers: make([]eos.ProducerKey, 0, len(b.NewProducers.Producers)),
-			},
-		}
-		for _, prod := range b.NewProducers.Producers {
-			res.NewProducers.Producers = append(res.NewProducers.Producers, eos.ProducerKey{
-				AccountName:     prod.AccountName,
-				BlockSigningKey: prod.BlockSigningKey,
-			})
-		}
 	}
 
 	for _, ext := range b.HeaderExtensions {
