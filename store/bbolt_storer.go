@@ -45,14 +45,14 @@ func NewBBoltStorer(logger *zap.Logger, chainID string, dbPath string, isStoreBl
 		state:            NewBlockDBState(cID),
 	}
 
-	if err := res.initState(cID); err != nil {
+	if err := res.initState(); err != nil {
 		return nil, err
 	}
 
 	return res, nil
 }
 
-func (s *BBoltStorer) initState(chainID types.Checksum256) error {
+func (s *BBoltStorer) initState() error {
 	return errors.Wrap(s.db.Update(func(tx *bolt.Tx) error {
 		stateBucket, err := tx.CreateBucketIfNotExists([]byte("state"))
 		if err != nil {
@@ -208,7 +208,7 @@ func (s *BBoltStorer) GetBlockByNum(blockNum uint32) (*types.SignedBlock, bool) 
 }
 
 // CommitTrx commit trx
-func (s *BBoltStorer) CommitTrx(trx *types.PackedTransactionMessage) error {
+func (s *BBoltStorer) CommitTrx(_ *types.PackedTransactionMessage) error {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	return nil

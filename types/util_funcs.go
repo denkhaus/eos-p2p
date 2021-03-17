@@ -47,7 +47,7 @@ func NewChainEncoder(w io.Writer) *eos.Encoder {
 	return eos.NewEncoder(w)
 }
 
-func readPacket(r io.Reader, conn net.Conn) (*Packet, error) {
+func readPacket(r io.Reader, _ net.Conn) (*Packet, error) {
 	data := make([]byte, 0)
 
 	lengthBytes := make([]byte, 4, 4)

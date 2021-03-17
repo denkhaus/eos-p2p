@@ -51,11 +51,11 @@ type Client struct {
 
 // Options options for new client
 type Options struct {
-	needSync      bool
-	startBlockNum uint32
-	handlers      []Handler
-	blkStorer     store.BlockStorer
-	logger        *zap.Logger
+	needSync bool
+	//startBlockNum uint32
+	handlers  []Handler
+	blkStorer store.BlockStorer
+	logger    *zap.Logger
 }
 
 // OptionFunc func for new client
@@ -65,7 +65,7 @@ type OptionFunc func(*Options) error
 func WithNeedSync(startBlockNum uint32) OptionFunc {
 	return func(o *Options) error {
 		o.needSync = true
-		o.startBlockNum = startBlockNum
+		//	o.startBlockNum = startBlockNum
 		return nil
 	}
 }

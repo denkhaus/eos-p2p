@@ -10,7 +10,7 @@ import (
 
 // TestBlockJSON test block to json is not change data
 func TestBlockJSON(t *testing.T) {
-	blk := newBlockForTest(1)
+	blk := newBlockForTest()
 	blkID, _ := blk.BlockID()
 	jsonStr, _ := json.Marshal(*blk)
 	blkCopy := &SignedBlock{}

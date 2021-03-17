@@ -7,7 +7,7 @@ import (
 	"github.com/eoscanada/eos-go/ecc"
 )
 
-func newBlockForTest(num uint32) *SignedBlock {
+func newBlockForTest() *SignedBlock {
 	signature, _ := ecc.NewSignature("SIG_K1_K1eEGkH78D3GzkGnoFdJ4mQ12ihxryfRErHzvBcfzy8kiSWepjB4tPwivavJoZeX47gKfGDYsk6LtyCrth3cbQF4Az8aN8")
 	res := &SignedBlock{
 		SignedBlockHeader: eos.SignedBlockHeader{
@@ -26,7 +26,9 @@ func newBlockForTest(num uint32) *SignedBlock {
 		BlockExtensions: make([]*eos.Extension, 0, 8),
 	}
 
-	res.Timestamp = eos.BlockTimestamp{time.Unix(time.Now().Unix(), 0).UTC()}
+	res.Timestamp = eos.BlockTimestamp{
+		Time: time.Unix(time.Now().Unix(), 0).UTC(),
+	}
 
 	return res
 }
