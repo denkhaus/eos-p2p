@@ -9,7 +9,7 @@ import (
 	bolt "go.etcd.io/bbolt"
 	"go.uber.org/zap"
 
-	"github.com/eosforce/eos-p2p/types"
+	"github.com/denkhaus/eos-p2p/types"
 )
 
 // BBoltStorer a very simple storer imp for test imp by storer
